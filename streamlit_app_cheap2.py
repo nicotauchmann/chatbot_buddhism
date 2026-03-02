@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import base64
 
 import streamlit as st
 from llama_index.llms.groq import Groq
@@ -11,7 +12,7 @@ from llama_index.core.base.llms.types import ChatMessage, MessageRole
 # ---------- Streamlit config ----------
 st.set_page_config(page_title="Buddhism Info Bot", page_icon="🧘", layout="centered")
 
-TOP_K = 3
+TOP_K = 30
 
 
 # ---------- Helpers ----------
@@ -34,6 +35,28 @@ VECTOR_DIR = BASE_DIR / "vector_index"  # commit this folder to GitHub
 EMBED_CACHE_DIR = (
     BASE_DIR / ".cache" / "embeddings"
 )  # ephemeral cache on Streamlit Cloud
+
+
+def set_background(png_path: Path) -> None:
+    if not png_path.exists():
+        st.warning(f"Background image not found: {png_path}")
+        return
+
+    b64 = base64.b64encode(png_path.read_bytes()).decode("utf-8")
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url("data:image/png;base64,{b64}") no-repeat center center fixed;
+            background-size: cover;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+set_background(BASE_DIR / "background.png")
 
 
 # ---------- Resources (cached across reruns) ----------
