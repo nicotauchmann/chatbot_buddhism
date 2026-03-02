@@ -79,7 +79,7 @@ def get_chat_engine():
         # This is the “system/context” instruction the condense_plus_context engine uses
         context_prompt = (
             "You are a helpful assistant who answers questions about Buddhism.\n"
-            "You must speak like young professor (calm, humble, thoughtful).\n\n"
+            "You must speak like a wise Tibetan monk (calm, humble, thoughtful).\n\n"
             "Here are the relevant documents for the context:\n"
             "{context_str}\n\n"
             "Instruction: Use the previous chat history or the context above to answer.\n"
@@ -101,7 +101,7 @@ def get_chat_engine():
 # ---------- UI ----------
 st.title("Buddhism Info Bot")
 st.write(
-    "Ask a question about Buddhism. The bot answers only from buddhistic literature."
+    "Ask a question about Buddhism. The bot answers only from the indexed documents."
 )
 
 if "messages" not in st.session_state:
