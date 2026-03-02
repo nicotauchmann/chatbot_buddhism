@@ -12,7 +12,7 @@ from llama_index.core.base.llms.types import ChatMessage, MessageRole
 # ---------- Streamlit config ----------
 st.set_page_config(page_title="Buddhism Info Bot", page_icon="🧘", layout="centered")
 
-TOP_K = 30
+TOP_K = 6
 
 
 # ---------- Helpers ----------
@@ -102,11 +102,16 @@ def get_chat_engine():
         # This is the “system/context” instruction the condense_plus_context engine uses
         context_prompt = (
             "You are a helpful assistant who answers questions about Buddhism.\n"
-            "You must speak like a young professor (calm, humble, thoughtful).\n\n"
+            "You must speak like a young professor (calm, humble, thoughtful).\n"
+            "You must answer using ONLY the provided context.\n"
+            "If the context does not contain the answer, say so clearly.\n\n"
+            "Write the answer in this format:\n"
+            "- 4–7 short bullet points covering the most important aspects.\n"
+            "- Then one final line starting with 'In short:' (one sentence).\n"
+            "Prefer completeness over verbosity: include key details, but avoid filler.\n"
+            "If multiple passages/sources are relevant, synthesize them into one coherent answer.\n\n"
             "Here are the relevant documents for the context:\n"
-            "{context_str}\n\n"
-            "Instruction: Use the previous chat history or the context above to answer.\n"
-            "If the context does not contain the answer, say you cannot find it in the documents."
+            "{context_str}\n"
         )
 
         # IMPORTANT: do NOT pass retriever=... here, or you can hit the “multiple values” error.
