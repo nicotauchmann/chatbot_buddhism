@@ -7,7 +7,6 @@ from llama_index.core import StorageContext, load_index_from_storage
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.core.base.llms.types import ChatMessage, MessageRole
-from llama_index.llms.openai import OpenAI
 
 # ---------- Streamlit config ----------
 st.set_page_config(page_title="Buddhism Info Bot", page_icon="🧘", layout="centered")
@@ -43,7 +42,7 @@ def make_llm() -> Groq:
     api_key = get_secret("GROQ_API_KEY")
     if not api_key:
         raise RuntimeError("Missing GROQ_API_KEY (set it in Streamlit Cloud Secrets).")
-    return OpenAI(model="gpt-3.5-turbo", temperature=0, api_key=api_key)
+    return Groq(model="llama-3.3-70b-versatile", api_key=api_key)
 
 
 @st.cache_resource
